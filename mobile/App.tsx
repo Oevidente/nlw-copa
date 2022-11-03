@@ -1,24 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeBaseProvider, StatusBar } from 'native-base';
+import {
+  useFonts,
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+} from '@expo-google-fonts/roboto';
+import { Loading } from './src/assets/components/Loading';
+import { SignIn } from './src/assets/screens/Signin';
+import { THEME } from './src/styles/theme';
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    //assegura que as fontes estejam carregadas no início da aplicação
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Roboto_700Bold,
+  });
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hello React Native!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider theme={THEME}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      {fontsLoaded ? <SignIn /> : <Loading />}
+      {/* Caso a tipografia tenha sido carregada mostre a tela de início */}
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#D9D9D9',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: '#1A1A1A',
-    fontSize: 24,
-  },
-});
